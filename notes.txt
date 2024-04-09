@@ -1,0 +1,12 @@
+# This project show dockerization of django and react on a cloned project
+
+1st: clone project with django and react code from github
+2nd: Create Dockerfile for both Django and react
+3rd: add nginx folder in the main directory for nginx config
+4th: then created docker compose with three services.
+5th: and at last ran:
+    - docker compose build
+    - docker compose up
+6th: Changing to run frontend and backend from nginx only see diff
+    - in ggg/nginx-setup.conf and hhh/nginx-setup.conf
+    - in ggg/react/blogapi/src/App.js and hhh/react/blogapi/src/App.js  for api url

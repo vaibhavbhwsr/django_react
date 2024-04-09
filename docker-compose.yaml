@@ -1,0 +1,31 @@
+services:
+
+  # Django backend service
+  backend:
+    build:
+      context: ./django
+    command: gunicorn core.wsgi --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+  # React frontend service
+  frontend:
+    build:
+      context: ./react/blogapi
+    volumes:
+      - react_build:/react/build    # here it will copy /react/build data to volume react_build
+
+  # Nginx service
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:8080                     # here nginx on container run on 80 which is mapping to 8080 for local
+    volumes:
+      - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
+      - react_build:/var/www/react  # here it will look inside the volume react_build and place it in /var/www/react
+    depends_on:
+      - backend
+      - frontend
+
+volumes:                            # this is volume used to give acces to same volume to different container here is for nginx and react
+  react_build:
